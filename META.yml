@@ -1,0 +1,20 @@
+---
+abstract: "Use git-describe to show a repo's version"
+author:
+  - 'Randy Stauner <rwstauner@cpan.org>'
+build_requires: {}
+configure_requires:
+  ExtUtils::MakeMaker: 6.31
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.102342, CPAN::Meta::Converter version 2.102400'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Git-DescribeVersion
+requires:
+  Git::Wrapper: 0
+  version: 0.77
+resources:
+  repository: http://github.com/magnificent-tears/git-describeversion.git
+version: 0.004008

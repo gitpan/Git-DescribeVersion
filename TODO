@@ -1,0 +1,5 @@
+- investigate PkgVersion (floating point vs. vstring)
+- support Git::Repository?
+- test with Test::MockObject
+- add dzil meta (repo, etc)
+- generate README.pod from main_module?

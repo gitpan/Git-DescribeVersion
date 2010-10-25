@@ -1,0 +1,10 @@
+Changes
+LICENSE
+MANIFEST
+META.yml
+Makefile.PL
+README
+TODO
+lib/Dist/Zilla/Plugin/Git/DescribeVersion.pm
+lib/Git/DescribeVersion.pm
+lib/Git/DescribeVersion/App.pm

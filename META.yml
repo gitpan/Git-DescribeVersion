@@ -2,7 +2,9 @@
 abstract: "Use git-describe to show a repo's version"
 author:
   - 'Randy Stauner <rwstauner@cpan.org>'
-build_requires: {}
+build_requires:
+  Test::MockObject: 0
+  Test::More: 0
 configure_requires:
   ExtUtils::MakeMaker: 6.31
 dynamic_config: 0
@@ -16,5 +18,5 @@ requires:
   Git::Wrapper: 0
   version: 0.77
 resources:
-  repository: http://github.com/magnificent-tears/git-describeversion.git
-version: 0.004008
+  repository: git://github.com/magnificent-tears/git-describeversion.git
+version: 0.005011

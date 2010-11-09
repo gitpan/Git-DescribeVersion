@@ -1,6 +1,6 @@
 package Git::DescribeVersion;
 BEGIN {
-  $Git::DescribeVersion::VERSION = '0.004008';
+  $Git::DescribeVersion::VERSION = '0.005011';
 }
 # ABSTRACT: Use git-describe to show a repo's version
 
@@ -37,6 +37,9 @@ sub new {
 
 sub parse_version {
 	my ($self, $prefix, $count) = @_;
+	$prefix =~ s/$self->{version_regexp}/$1/
+		if $self->{version_regexp};
+
 	# quote 'version' to reference the module and not call the local sub
 	return 'version'->parse("v$prefix.$count")->numify;
 		#if $vstring =~ $version::LAX;
@@ -56,11 +59,18 @@ sub version_from_describe {
 		$self->{git}->describe(
 			{match => $self->{match_pattern}, tags => 1, long => 1}
 		);
-	} or return undef;
+	};
+	# usually you'll expect a tag to be found, so warn if it isn't
+	if( my $error = $@ ){
+		chomp($error);
+		warn("git-describe: $error\n");
+	}
+
+	# return nothing so we know to move on to count-objects
+	return unless $ver;
 
 	# ignore the -gSHA
 	my ($tag, $count) = ($ver =~ /^(.+?)-(\d+)-(g[0-9a-f]+)$/);
-	$tag =~ s/$self->{version_regexp}/$1/;
 
 	return $self->parse_version($tag, $count);
 }
@@ -89,7 +99,7 @@ Git::DescribeVersion - Use git-describe to show a repo's version
 
 =head1 VERSION
 
-version 0.004008
+version 0.005011
 
 =head1 SYNOPSIS
 
@@ -137,7 +147,7 @@ tag matching I<match_pattern>.
 
 It effectively calls
 
-	git describe --tags --long --match_pattern "match_pattern"
+	git describe --tags --long --match_pattern "${match_pattern}"
 
 If no matching tags are found (or some other error occurs)
 it will return undef.
@@ -151,32 +161,33 @@ It effectively calls
 
 	git count-objects -v
 
-It sums up the counts for 'count' and 'in-pack'.
+and sums up the counts for 'count' and 'in-pack'.
 
 =head1 OPTIONS
 
-These options can be passed to C<new()>:
+These options can be passed to L</new>:
 
 =head2 directory
 
-Directory in which git should operate.  Deafults to I<.>.
+Directory in which git should operate.  Defaults to ".".
 
 =head2 first_version
 
 If the repository has no tags at all, this version
-is used as the first version for the distribution.  It defaults to "v0.1".
-Then git objects will be counted and appended to create a version like "v0.1.5".
+is used as the first version for the distribution.
+It defaults to C<v0.1>.  Then git objects will be counted
+and appended to create a version like C<v0.1.5>.
 
 =head2 version_regexp
 
 Regular expression that matches a tag containing
-a version.  It must capture the version into $1.  Defaults to C<^v([0-9._]+)$>
-which matches tags like C<"v0.1">.
+a version.  It must capture the version into C<$1>.
+Defaults to C<< ^v([0-9._]+)$ >> which matches tags like C<v0.1>.
 
 =head2 match_pattern
 
 A shell-glob-style pattern to match tags
-(default "v[0-9]*").  This is passed to C<git-describe> to help it
+(default C<< v[0-9]* >>).  This is passed to C<git-describe> to help it
 find the right tag from which to count commits.
 
 =head1 HISTORY / RATIONALE
@@ -191,8 +202,8 @@ As soon as I wanted it in another Makefile
 (in another repo) I knew I had a problem.
 
 Then when I started learning L<Dist::Zilla>
-I realized that L<Dist::Zilla::Plugin::Git::NextVersion>
-was nice but not do what I wanted.
+I found L<Dist::Zilla::Plugin::Git::NextVersion>
+but missed the functionality I was used to with C<git-describe>.
 
 I started by forking L<Dist::Zilla::Plugin::Git> on github,
 but realized that if I wrote the logic into a Dist::Zilla plugin
@@ -213,15 +224,7 @@ An attribute for specifying the output as floating point or dotted decimal.
 
 =item *
 
-Test different input formats with the L<version> module.
-
-=item *
-
-Add an attribute for input format if there is a need.
-
-=item *
-
-Write tests
+Allow for more complex regexps (multiple groups) if there is a need.
 
 =item *
 
@@ -248,6 +251,10 @@ L<Git::Wrapper>
 =item *
 
 L<http://www.git-scm.com>
+
+=item *
+
+L<version>
 
 =back
 

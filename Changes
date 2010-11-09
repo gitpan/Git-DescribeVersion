@@ -1,3 +1,111 @@
-Revision history for Git-DescribeVersion
+Revision History for Git-DescribeVersion
+========================================
 
-{{$NEXT}}
+0.005011
+--------
+
+fb923b7 Replace MetaResources with Repository and include MetaJSON to utilize it
+
+8ff7b5c Include extra release/author tests using Dist::Zilla plugins
+
+b3fe020 Remove complete TODO items from POD
+
+a713a63 Anchor the 'dist.ini' line to skip the root file but include the example file
+
+81071b0 Generate change log for build tarball from git commit history
+
+386b415 Add usage examples to increase kwalitee
+
+8fe0de1 Include alternate tag styles to test the 'version_regexp' option
+
+5248d0a Smoke test load, import, and constructor
+
+b10e7cf Rename 'tags' to 'describe' for clarity and consistency
+
+d94acd4 Test count-objects
+
+ea2995d Simplify the mocking of Git::Wrapper for future re-use
+
+v0.5 2010-11-08
+---------------
+
+0b1e79f Fix uncaught failure of 'describe' bug and show warning
+
+a4e116d Move s/// with version_regexp to parse_version()
+
+421e3bb Move arrays of sample data out to t/lib/
+
+93f7c99 Add test data for "v2"
+
+eeec33a Write short POD for run() method to appease Pod::Coverage
+
+4fef892 Test that given tags produce expected version strings
+
+d4238b4 Fix up some POD formatting to be more consistent and readable
+
+45f0fad Include a simple README file to make github happy
+
+6dbf3f2 Use MetaResources to add repository information
+
+a1e7399 Give thanks to others that likely contributed to Dist::Zilla and it's Git PluginBundle
+
+1e7c9be Document parse_version() (and move it up for better organization)
+
+e552b47 Document methods with POD
+
+40587a9 Move TODO comment to POD section
+
+3aa5029 Link the reference to Dist::Zilla VersionProvider in POD
+
+a5504f7 Add more examples for the App::run() usage possibilities
+
+v0.4 2010-10-24
+---------------
+
+f4716a0 Trade the initial argument for a 'directory' option so that all arguments are in the hash[ref]
+
+17f37b1 Improve grammar in POD
+
+f464e14 Fix inconsistent spacing and consider another attribute in a TODO comment
+
+561887c Ignore unnecessary files when building the distribution
+
+622024c Explicitly =cut the POD at the end of the file
+
+9668e0a Change email address from personal to pause
+
+e4c8ff5 Update SEE ALSO links in main POD
+
+6303c0c Add History/Rationale section to main module's POD
+
+82d2e54 Shorten main module abstract to fit in 44 character limit
+
+ddd6476 Improve readability in POD sentence
+
+d580e3b Remove the apostrophe-s in the ABSTRACT
+
+b061428 List 'version' 0.77 in prerequisites
+
+30721be Add SYNOPSIS POD
+
+2210c71 Use Pod::Elemental::Transformer::List with PodWeaver
+
+v0.3 2010-10-16
+---------------
+
+e987e9d Add Dist::Zilla plugin based on Plugin::Git::NextVersion
+
+48c40bd Document usage and options with POD
+
+58564b5 Don't require the version_regexp option to have the v next to the first digit
+
+e208a61 Add simple module for executing in one line
+
+v0.2 2010-10-16
+---------------
+
+6b4f7a6 Fabricate version from git-count-objects if git-describe fails
+
+===================================
+End of changes in the last 365 days
+===================================

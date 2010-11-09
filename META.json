@@ -1,0 +1,45 @@
+{
+   "abstract" : "Use git-describe to show a repo's version",
+   "author" : [
+      "Randy Stauner <rwstauner@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 4.102342, CPAN::Meta::Converter version 2.102400",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Git-DescribeVersion",
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.31"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Git::Wrapper" : 0,
+            "version" : "0.77"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::MockObject" : 0,
+            "Test::More" : 0
+         }
+      }
+   },
+   "release_status" : "testing",
+   "resources" : {
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/magnificent-tears/git-describeversion.git",
+         "web" : "http://github.com/magnificent-tears/git-describeversion"
+      }
+   },
+   "version" : "0.005011"
+}
+

@@ -1,6 +1,6 @@
 package Git::DescribeVersion::App;
 BEGIN {
-  $Git::DescribeVersion::App::VERSION = '0.004008';
+  $Git::DescribeVersion::App::VERSION = '0.005011';
 }
 # ABSTRACT: Provide a simple way to run Git::DescribeVersion as an app
 
@@ -37,7 +37,7 @@ Git::DescribeVersion::App - Provide a simple way to run Git::DescribeVersion as 
 
 =head1 VERSION
 
-version 0.004008
+version 0.005011
 
 =head1 SYNOPSIS
 
@@ -59,6 +59,21 @@ the alias, function, Makefile or script that does exactly what you want.
 
 If not, feel free to send me suggestions (or patches)
 that you think would make it simpler or more powerful.
+
+=head1 METHODS
+
+=head2 run
+
+Convenience method for writing one-liners.
+
+Exported to main package.
+
+Accepts arguments in a hash or hashref
+which are passed to the constructor.
+
+Also looks for arguments in %ENV.
+
+See L</SYNOPSIS>.
 
 =head1 AUTHOR
 

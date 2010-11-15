@@ -1,8 +1,8 @@
 package Dist::Zilla::Plugin::Git::DescribeVersion;
 BEGIN {
-  $Dist::Zilla::Plugin::Git::DescribeVersion::VERSION = '0.005011';
+  $Dist::Zilla::Plugin::Git::DescribeVersion::VERSION = '0.006012';
 }
-# ABSTRACT: provide a version number by using the git-describe command
+# ABSTRACT: provide version using git-describe
 
 # I don't know much about Dist::Zilla or Moose.
 # This code copied/modified from Dist::Zilla::Plugin::Git::NextVersion.
@@ -57,11 +57,11 @@ __END__
 
 =head1 NAME
 
-Dist::Zilla::Plugin::Git::DescribeVersion - provide a version number by using the git-describe command
+Dist::Zilla::Plugin::Git::DescribeVersion - provide version using git-describe
 
 =head1 VERSION
 
-version 0.005011
+version 0.006012
 
 =head1 SYNOPSIS
 

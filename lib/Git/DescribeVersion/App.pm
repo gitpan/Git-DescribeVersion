@@ -1,8 +1,8 @@
 package Git::DescribeVersion::App;
 BEGIN {
-  $Git::DescribeVersion::App::VERSION = '0.005011';
+  $Git::DescribeVersion::App::VERSION = '0.006012';
 }
-# ABSTRACT: Provide a simple way to run Git::DescribeVersion as an app
+# ABSTRACT: run Git::DescribeVersion as one-line script
 
 use strict;
 use warnings;
@@ -14,6 +14,11 @@ sub import {
 }
 
 sub run {
+	# allow usage as Git::DescribeVersion::App->run()
+	# (for consistency with other App's)
+	# and simply discard the unused argument
+	shift(@_) if @_ && $_[0] eq __PACKAGE__;
+
 	my %env;
 	my %args = ref($_[0]) ? %{$_[0]} : @_;
 	foreach my $opt ( keys %Git::DescribeVersion::Defaults ){
@@ -33,11 +38,11 @@ __END__
 
 =head1 NAME
 
-Git::DescribeVersion::App - Provide a simple way to run Git::DescribeVersion as an app
+Git::DescribeVersion::App - run Git::DescribeVersion as one-line script
 
 =head1 VERSION
 
-version 0.005011
+version 0.006012
 
 =head1 SYNOPSIS
 

@@ -1,6 +1,6 @@
 package Git::DescribeVersion;
 BEGIN {
-  $Git::DescribeVersion::VERSION = '0.005011';
+  $Git::DescribeVersion::VERSION = '0.006012';
 }
 # ABSTRACT: Use git-describe to show a repo's version
 
@@ -15,7 +15,7 @@ our %Defaults = (
 	first_version 	=> 'v0.1',
 	match_pattern 	=> 'v[0-9]*',
 #	count_format 	=> 'v0.1.%d',
-	version_regexp 	=> '^v(.+)$'
+	version_regexp 	=> '([0-9._]+)'
 );
 
 
@@ -37,8 +37,12 @@ sub new {
 
 sub parse_version {
 	my ($self, $prefix, $count) = @_;
-	$prefix =~ s/$self->{version_regexp}/$1/
-		if $self->{version_regexp};
+
+	# s//$1/ requires the regexp to be anchored.
+	# Doing a match and then assigning to $1 does not.
+	if( $self->{version_regexp} && $prefix =~ /$self->{version_regexp}/ ){
+		$prefix = $1;
+	}
 
 	# quote 'version' to reference the module and not call the local sub
 	return 'version'->parse("v$prefix.$count")->numify;
@@ -99,7 +103,7 @@ Git::DescribeVersion - Use git-describe to show a repo's version
 
 =head1 VERSION
 
-version 0.005011
+version 0.006012
 
 =head1 SYNOPSIS
 
@@ -127,27 +131,27 @@ See L</OPTIONS> for an explanation of the available options.
 
 A method to take the version parts found and return the end result.
 
-Uses the L<version> module to parse.
+Uses the L<version|version> module to parse.
 
 =head2 version
 
 The C<version> method is the main method of the class.
-It attempts to return the repo version.
+It attempts to return the repository version.
 
 It will first use L</version_from_describe>.
 
 If that fails it will try to simulate
 the functionality with L</version_from_count_objects>
-and will start the count from the I<first_version> option.
+and will start the count from the L</first_version> option.
 
 =head2 version_from_describe
 
 Use C<git-describe> to count the number of commits since the last
-tag matching I<match_pattern>.
+tag matching L</match_pattern>.
 
 It effectively calls
 
-	git describe --tags --long --match_pattern "${match_pattern}"
+	git describe --tags --long --match "${match_pattern}"
 
 If no matching tags are found (or some other error occurs)
 it will return undef.
@@ -155,7 +159,7 @@ it will return undef.
 =head2 version_from_count_objects
 
 Use C<git-count-objects> to count the number of commit objects
-in the repo.  It then appends this count to I<first_version>.
+in the repository.  It then appends this count to L</first_version>.
 
 It effectively calls
 
@@ -175,20 +179,29 @@ Directory in which git should operate.  Defaults to ".".
 
 If the repository has no tags at all, this version
 is used as the first version for the distribution.
-It defaults to C<v0.1>.  Then git objects will be counted
+
+Then git objects will be counted
 and appended to create a version like C<v0.1.5>.
+
+Defaults to C<< v0.1 >>.
 
 =head2 version_regexp
 
 Regular expression that matches a tag containing
 a version.  It must capture the version into C<$1>.
-Defaults to C<< ^v([0-9._]+)$ >> which matches tags like C<v0.1>.
+
+Defaults to C<< ([0-9._]+) >>
+which will simply capture the first dotted-decimal found.
+This matches tags like C<v0.1>, C<rev-1.2>
+and even C<release-2.0-skippy>.
 
 =head2 match_pattern
 
-A shell-glob-style pattern to match tags
-(default C<< v[0-9]* >>).  This is passed to C<git-describe> to help it
+A shell-glob-style pattern to match tags.
+This is passed to C<git-describe> to help it
 find the right tag from which to count commits.
+
+Defaults to C<< v[0-9]* >>.
 
 =head1 HISTORY / RATIONALE
 
@@ -199,7 +212,7 @@ This module started out as a line in a Makefile:
 		grep -Eo 'v[0-9]+\.[0-9]+-[0-9]+' | tr - . | cut -c 2-))
 
 As soon as I wanted it in another Makefile
-(in another repo) I knew I had a problem.
+(in another repository) I knew I had a problem.
 
 Then when I started learning L<Dist::Zilla>
 I found L<Dist::Zilla::Plugin::Git::NextVersion>
@@ -207,7 +220,7 @@ but missed the functionality I was used to with C<git-describe>.
 
 I started by forking L<Dist::Zilla::Plugin::Git> on github,
 but realized that if I wrote the logic into a Dist::Zilla plugin
-it wouldn't be available to my git repos that weren't Perl distributions.
+it wouldn't be available to my git repositories that weren't Perl distributions.
 
 So I wanted to extract the functionality to a module,
 include a L<Dist::Zilla::Role::VerionProvider> plugin,
@@ -257,6 +270,82 @@ L<http://www.git-scm.com>
 L<version>
 
 =back
+
+=for :stopwords CPAN AnnoCPAN RT CPANTS Kwalitee diff
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+  perldoc Git::DescribeVersion
+
+=head2 Websites
+
+=over 4
+
+=item *
+
+Search CPAN
+
+L<http://search.cpan.org/dist/Git-DescribeVersion>
+
+=item *
+
+AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/Git-DescribeVersion>
+
+=item *
+
+CPAN Ratings
+
+L<http://cpanratings.perl.org/d/Git-DescribeVersion>
+
+=item *
+
+CPAN Forum
+
+L<http://cpanforum.com/dist/Git-DescribeVersion>
+
+=item *
+
+RT: CPAN's Bug Tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Git-DescribeVersion>
+
+=item *
+
+CPANTS Kwalitee
+
+L<http://cpants.perl.org/dist/overview/Git-DescribeVersion>
+
+=item *
+
+CPAN Testers Results
+
+L<http://cpantesters.org/distro/G/Git-DescribeVersion.html>
+
+=item *
+
+CPAN Testers Matrix
+
+L<http://matrix.cpantesters.org/?dist=Git-DescribeVersion>
+
+=item *
+
+Source Code Repository
+
+L<git://github.com/magnificent-tears/git-describeversion.git>
+
+L<http://github.com/magnificent-tears/git-describeversion>
+
+=back
+
+=head2 Bugs
+
+Please report any bugs or feature requests to C<bug-git-describeversion at rt.cpan.org>, or through
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Git-DescribeVersion>.  I will be
+notified, and then you'll automatically be notified of progress on your bug as I make changes.
 
 =head1 AUTHOR
 

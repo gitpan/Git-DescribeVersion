@@ -1,8 +1,41 @@
 Revision History for Git-DescribeVersion
 ========================================
 
-0.005011
+0.006012
 --------
+
+9479e15 Fix POD typo of misnamed argument to git command
+
+d548eea Update examples: comment on Makefile purpose and remove unnecessary argument
+
+b51a842 Use @GopherRepellent plugin bundle to simplify ini's
+
+f27984d Allow App::run() to be called as a package method for consistency with other App modules
+
+e1e78e2 Specify versions required for test modules
+
+554c081 Test App module with Test::Output (if available)
+
+02080de Shorten ABSTRACT lines to fit in 44 characters
+
+0aafd5f Control the link to the 'version' module as specified in Hints section of perlpod
+
+525320e Include DZ plugins for minimum perl version and portability tests
+
+244cba5 Remove the superfluous '^\D*' from the default 'version_regexp'
+
+3deff53 Add a variety of tag patterns to test the new 'version_regexp'
+
+8c8b3d7 Word the Options POD sections more consistently
+
+v0.6 2010-11-10
+---------------
+
+a28ca49 Change the default 'version_regexp' to catch a wider variety of tag patterns
+
+6d7e325 Improve POD: Spell out 'repository' and link to options when referring to them
+
+8d0e175 Move duplicated test preparation code into t/lib
 
 fb923b7 Replace MetaResources with Repository and include MetaJSON to utilize it
 

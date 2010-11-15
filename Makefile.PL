@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-
+BEGIN { require 5.006; }
 
 use ExtUtils::MakeMaker 6.31;
 
@@ -12,8 +12,8 @@ my %WriteMakefileArgs = (
   'ABSTRACT' => 'Use git-describe to show a repo\'s version',
   'AUTHOR' => 'Randy Stauner <rwstauner@cpan.org>',
   'BUILD_REQUIRES' => {
-    'Test::MockObject' => '0',
-    'Test::More' => '0'
+    'Test::MockObject' => '1.09',
+    'Test::More' => '0.96'
   },
   'CONFIGURE_REQUIRES' => {
     'ExtUtils::MakeMaker' => '6.31'
@@ -26,7 +26,7 @@ my %WriteMakefileArgs = (
     'Git::Wrapper' => '0',
     'version' => '0.77'
   },
-  'VERSION' => '0.005011',
+  'VERSION' => '0.006012',
   'test' => {
     'TESTS' => 't/*.t'
   }

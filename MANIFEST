@@ -7,10 +7,10 @@ Makefile.PL
 README
 examples/Makefile
 examples/dist.ini
+examples/gitconfig
 lib/Dist/Zilla/Plugin/Git/DescribeVersion.pm
 lib/Git/DescribeVersion.pm
 lib/Git/DescribeVersion/App.pm
-t/00-compile.t
 t/00-smoke.t
 t/01-describe.t
 t/02-count_objects.t

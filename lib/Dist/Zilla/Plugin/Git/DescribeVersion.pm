@@ -1,6 +1,6 @@
 package Dist::Zilla::Plugin::Git::DescribeVersion;
 BEGIN {
-  $Dist::Zilla::Plugin::Git::DescribeVersion::VERSION = '0.006012';
+  $Dist::Zilla::Plugin::Git::DescribeVersion::VERSION = '0.006013';
 }
 # ABSTRACT: provide version using git-describe
 
@@ -61,7 +61,7 @@ Dist::Zilla::Plugin::Git::DescribeVersion - provide version using git-describe
 
 =head1 VERSION
 
-version 0.006012
+version 0.006013
 
 =head1 SYNOPSIS
 

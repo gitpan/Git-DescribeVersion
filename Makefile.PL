@@ -26,7 +26,7 @@ my %WriteMakefileArgs = (
     'Git::Wrapper' => '0',
     'version' => '0.77'
   },
-  'VERSION' => '0.006012',
+  'VERSION' => '0.006013',
   'test' => {
     'TESTS' => 't/*.t'
   }

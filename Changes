@@ -1,8 +1,10 @@
 Revision History for Git-DescribeVersion
 ========================================
 
-0.006012
+0.006013
 --------
+
+6e7737b Add example git config alias
 
 9479e15 Fix POD typo of misnamed argument to git command
 

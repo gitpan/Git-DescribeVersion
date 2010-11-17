@@ -1,6 +1,6 @@
 package Git::DescribeVersion;
 BEGIN {
-  $Git::DescribeVersion::VERSION = '0.006013';
+  $Git::DescribeVersion::VERSION = '0.007006';
 }
 # ABSTRACT: Use git-describe to show a repo's version
 
@@ -103,7 +103,7 @@ Git::DescribeVersion - Use git-describe to show a repo's version
 
 =head1 VERSION
 
-version 0.006013
+version 0.007006
 
 =head1 SYNOPSIS
 
@@ -337,7 +337,7 @@ Source Code Repository
 
 L<git://github.com/magnificent-tears/git-describeversion.git>
 
-L<http://github.com/magnificent-tears/git-describeversion>
+L<http://github.com/magnificent-tears/git-describeversion/tree>
 
 =back
 

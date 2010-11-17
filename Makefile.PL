@@ -12,7 +12,11 @@ my %WriteMakefileArgs = (
   'ABSTRACT' => 'Use git-describe to show a repo\'s version',
   'AUTHOR' => 'Randy Stauner <rwstauner@cpan.org>',
   'BUILD_REQUIRES' => {
-    'Test::MockObject' => '1.09',
+    'Exporter' => '0',
+    'File::Find' => '0',
+    'File::Temp' => '0',
+    'FindBin' => '0',
+    'Test::MockObject::Extends' => '1.09',
     'Test::More' => '0.96'
   },
   'CONFIGURE_REQUIRES' => {
@@ -26,7 +30,7 @@ my %WriteMakefileArgs = (
     'Git::Wrapper' => '0',
     'version' => '0.77'
   },
-  'VERSION' => '0.006013',
+  'VERSION' => '0.007006',
   'test' => {
     'TESTS' => 't/*.t'
   }

@@ -1,8 +1,25 @@
 Revision History for Git-DescribeVersion
 ========================================
 
-0.006013
+0.007006
 --------
+
+f719d34 Enable AutoPrereqs and stop listing the obvious ones explicitly
+
+f8d40c2 Configure new plugin dist
+
+f58a4ee Add tailored gitignore file
+
+2fe251f Move Dist::Zilla example ini to plugin/examples
+
+95c8a87 Don't bother to skip files that [dw]on't exist
+
+32cdc44 Exclude the dist-zilla-plugin directory from the main module's build
+
+v0.7 2010-11-17
+---------------
+
+b2ac327 Move Dist::Zilla plugin to a subdirectory to be released in a separate tarball
 
 6e7737b Add example git config alias
 

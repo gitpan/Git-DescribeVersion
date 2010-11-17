@@ -1,6 +1,6 @@
 package Git::DescribeVersion::App;
 BEGIN {
-  $Git::DescribeVersion::App::VERSION = '0.006013';
+  $Git::DescribeVersion::App::VERSION = '0.007006';
 }
 # ABSTRACT: run Git::DescribeVersion as one-line script
 
@@ -42,7 +42,7 @@ Git::DescribeVersion::App - run Git::DescribeVersion as one-line script
 
 =head1 VERSION
 
-version 0.006013
+version 0.007006
 
 =head1 SYNOPSIS
 

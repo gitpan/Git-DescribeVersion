@@ -1,8 +1,88 @@
 Revision History for Git-DescribeVersion
 ========================================
 
-0.007006
+1.000010
 --------
+
+e6db94d Actually test the expected warnings to cut down on the noise
+
+d2ff780 Export expect_warning function from t/lib to wrap Test::Output so it isn't required
+
+b80b79b Avoid 'uninitialized' warnings in test descriptions by replacing undef with tilde
+
+68868ef Document the 'format' attribute and its possible values
+
+06d6c36 Adjust sprintf spec slightly to allow for testing tags with only 2 pieces
+
+e5cb317 Test parse_version with the other formats and make usage more consistent with other t/ scripts
+
+9cc6d66 Handle undef values in t/lib expectation()
+
+65b1bb4 Add t/lib function to wrap doing the same test for each format
+
+965ffed Alter versions/expectations to test all 3 possible output formats
+
+c46689d Allow the optional character b/t 'no' and 'v' to be anything
+
+v1.0 2010-12-07
+---------------
+
+b883289 Add 'format' option for specifying the version object format
+
+9fce11d Catch version parsing errors and return undef
+
+0740dcd Create prepare_warning() method to centralize warning message normalization
+
+59f8347 Document the behavior of specifying undef for first_version
+
+a22bdfd Print diagnostic message right before warning to make it appear more deliberate
+
+61e4526 Test parse_version() (and it's new validations)
+
+58ad9c5 Replace undefined values to parse_version() with defaults or return nothing
+
+v0.10 2010-12-06
+----------------
+
+3f34ea8 Revert "Change version_from* subs to return list and call parse_version() once from version()"
+
+9f943e1 Make argument order in POD example match exact call
+
+e0589d7 Uppercase referenced author id's and add them as stopwords
+
+379a4f1 Suggest installing Git::Repository
+
+0ad265c Add two scripts to test the various wrapper invocations
+
+v0.9 2010-12-06
+---------------
+
+37c2fd9 Attempt to load Git::Repository or Git::Wrapper or fall back to backticks
+
+v0.8 2010-12-06
+---------------
+
+e50d8b0 Change version_from* subs to return list and call parse_version() once from version()
+
+f8deaad Remove useless arbitrary numeric prefix from test script names
+
+93eb16b Add isa_ok tests to the individual test scripts and remove the useless 00-smoke.t
+
+7056bba Don't load/wrap a real module with Test::MockObject::Extends when we're mocking all the methods we call
+
+f2ba4b4 Add stopwords for pod spell check
+
+66e98d1 Capitalize abstract descriptions
+
+8fc685c Explicitly end the test lib with a true value (just in case)
+
+cd3341c Explicitly specify and link to Git::DV->new() to clarify POD
+
+a07eb00 Add SEE ALSO Section and link back to main module
+
+e076fd7 Fix typo in POD module link (insert missing 'Plugin')
+
+1642f7f Clarify in POD that the dz plugin is separate (no longer included)
 
 f719d34 Enable AutoPrereqs and stop listing the obvious ones explicitly
 

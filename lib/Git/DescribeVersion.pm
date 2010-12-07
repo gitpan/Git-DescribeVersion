@@ -1,6 +1,6 @@
 package Git::DescribeVersion;
 BEGIN {
-  $Git::DescribeVersion::VERSION = '0.007006';
+  $Git::DescribeVersion::VERSION = '1.000010';
 }
 # ABSTRACT: Use git-describe to show a repo's version
 
@@ -8,13 +8,12 @@ BEGIN {
 use strict;
 use warnings;
 
-use Git::Wrapper;
 use version 0.77 ();
 
 our %Defaults = (
 	first_version 	=> 'v0.1',
 	match_pattern 	=> 'v[0-9]*',
-#	count_format 	=> 'v0.1.%d',
+	format 			=> 'decimal',
 	version_regexp 	=> '([0-9._]+)'
 );
 
@@ -28,15 +27,101 @@ sub new {
 		# restrict accepted arguments
 		map { $_ => $opts{$_} } grep { exists($opts{$_}) } keys %Defaults
 	};
-	# accept a Git::Wrapper object or initialize one with 'directory'
-	$self->{git} ||= $opts{git_wrapper} ||
-		Git::Wrapper->new($opts{directory} || '.');
+
+	$self->{directory} = $opts{directory} || '.';
+	# accept a Git::Repository or Git::Wrapper object (or command to exec)
+	# or a simple '1' (true value) to indicate which one is desired
+	foreach my $mod ( qw(git_repository git_wrapper git_backticks) ){
+		if( $opts{$mod} ){
+			$self->{git} = $mod;
+			# if it's just a true value leave it blank so we create later
+			$self->{$mod} = $opts{$mod}
+				unless $opts{$mod} eq '1';
+		}
+	}
 	bless $self, $class;
 }
 
 
+# NOTE: the git* subs are called in list context
+
+sub git {
+	my ($self) = @_;
+	unless( $self->{git} ){
+		# Git::Repository is easier to install than Git::Wrapper
+		if( eval 'require Git::Repository; 1' ){
+			$self->{git} = 'git_repository';
+		}
+		elsif( eval 'require Git::Wrapper; 1' ){
+			$self->{git} = 'git_wrapper';
+		}
+		else {
+			$self->{git} = 'git_backticks';
+		}
+	}
+	goto &{$self->{git}};
+}
+
+sub git_backticks {
+	my ($self, $command, @args) = @_;
+	warn("'directory' attribute not supported when using backticks.\n" .
+		"Consider installing Git::Repository or Git::Wrapper.\n")
+			if $self->{directory} && $self->{directory} ne '.';
+
+	my $exec = join(' ',
+		map { quotemeta }
+			# the external app to run
+			($self->{git_backticks} ||= 'git'),
+			$command,
+			map { ref $_ ? @$_ : $_ } @args
+	);
+
+	return (`$exec`);
+}
+
+sub git_repository {
+	my ($self, $command, @args) = @_;
+	(
+		$self->{git_repository} ||=
+			Git::Repository->new(work_tree => $self->{directory})
+	)
+		->run($command,
+			map { ref $_ ? @$_ : $_ } @args
+		);
+}
+
+sub git_wrapper {
+	my ($self, $command, @args) = @_;
+	$command =~ tr/-/_/;
+	(
+		$self->{git_wrapper} ||=
+			Git::Wrapper->new($self->{directory})
+	)
+		->$command({
+			map { ($$_[0] =~ /^-{0,2}(.+)$/, $$_[1]) }
+				map { ref $_ ? $_ : [$_ => 1] } @args
+		});
+}
+
+
+
 sub parse_version {
 	my ($self, $prefix, $count) = @_;
+
+	# This is unlikely as it should mean that both git commands
+	# returned unexpected output.  If it does happen, don't die
+	# trying to parse it, default to first_version.
+	$prefix = $self->{first_version}
+		unless defined $prefix;
+	$count  = 0
+		unless defined $count;
+
+	# If still undef (first_version explicitly set to undef)
+	# don't die trying to parse it, just return nothing.
+	unless( defined $prefix ){
+		warn("Version could not be determined.\n");
+		return;
+	}
 
 	# s//$1/ requires the regexp to be anchored.
 	# Doing a match and then assigning to $1 does not.
@@ -44,9 +129,35 @@ sub parse_version {
 		$prefix = $1;
 	}
 
+	my $vstring = "v$prefix.$count";
+
 	# quote 'version' to reference the module and not call the local sub
-	return 'version'->parse("v$prefix.$count")->numify;
-		#if $vstring =~ $version::LAX;
+	my $vobject = eval {
+		'version'->parse($vstring)
+			#if version::is_lax($vstring); # version 0.82
+	};
+
+	# Don't die if it's not parseable, just return nothing.
+	if( my $error = $@ || !$vobject ){
+		$error = $self->prepare_warning($error);
+		warn("Version '$vstring' not a valid version string.\n$error");
+		return;
+	}
+
+	my $format = $self->{format} =~ /dot|normal|v|string/ ? 'normal' : 'numify';
+	my $version = $vobject->$format;
+	$version =~ s/^v// if $self->{format} =~ /no.?v/;
+	return $version;
+}
+
+# normalize error message
+
+sub prepare_warning {
+	my ($self, $error) = @_;
+	return '' unless $error;
+	$error =~ s/ at \S+?\.pm line \d+\.?\s*$//;
+	chomp($error);
+	return $error . "\n";
 }
 
 
@@ -60,14 +171,14 @@ sub version {
 sub version_from_describe {
 	my ($self) = @_;
 	my ($ver) = eval {
-		$self->{git}->describe(
-			{match => $self->{match_pattern}, tags => 1, long => 1}
+		$self->git('describe',
+			['--match' => $self->{match_pattern}], qw(--tags --long)
 		);
 	};
 	# usually you'll expect a tag to be found, so warn if it isn't
 	if( my $error = $@ ){
-		chomp($error);
-		warn("git-describe: $error\n");
+		$error = $self->prepare_warning($error);
+		warn("git-describe: $error");
 	}
 
 	# return nothing so we know to move on to count-objects
@@ -82,7 +193,7 @@ sub version_from_describe {
 
 sub version_from_count_objects {
 	my ($self) = @_;
-	my @counts = $self->{git}->count_objects({v => 1});
+	my @counts = $self->git(qw(count-objects -v));
 	my $count = 0;
 	local $_;
 	foreach (@counts){
@@ -97,13 +208,15 @@ sub version_from_count_objects {
 __END__
 =pod
 
+=for :stopwords Randy Stauner repo's todo CPAN AnnoCPAN RT CPANTS Kwalitee diff
+
 =head1 NAME
 
 Git::DescribeVersion - Use git-describe to show a repo's version
 
 =head1 VERSION
 
-version 0.007006
+version 1.000010
 
 =head1 SYNOPSIS
 
@@ -126,6 +239,12 @@ The constructor accepts a hash or hashref of options:
 	Git::DescribeVersion->new(opt1 => 'v1', opt2 => 'v2');
 
 See L</OPTIONS> for an explanation of the available options.
+
+=head2 git
+
+A method to wrap the git commands.
+Attempts to use L<Git::Repository> or L<Git::Wrapper>.
+Falls back to using backticks.
 
 =head2 parse_version
 
@@ -151,7 +270,7 @@ tag matching L</match_pattern>.
 
 It effectively calls
 
-	git describe --tags --long --match "${match_pattern}"
+	git describe --match "${match_pattern}" --tags --long
 
 If no matching tags are found (or some other error occurs)
 it will return undef.
@@ -166,6 +285,8 @@ It effectively calls
 	git count-objects -v
 
 and sums up the counts for 'count' and 'in-pack'.
+
+=for Pod::Coverage git_backticks git_repository git_wrapper prepare_warning
 
 =head1 OPTIONS
 
@@ -183,7 +304,41 @@ is used as the first version for the distribution.
 Then git objects will be counted
 and appended to create a version like C<v0.1.5>.
 
+If set to C<undef> then L</version> will return undef
+if L</version_from_describe> cannot determine a value.
+
 Defaults to C<< v0.1 >>.
+
+=head2 format
+
+Specify the output format for the version number.
+
+I had trouble determining the most reasonable names
+for the formats so a few variations are possible.
+
+=over 4
+
+=item *
+
+C<dotted>, C<normal>, C<v-string> or C<v>
+
+for values like C<< v1.2.3 >>.
+
+=item *
+
+C<no-vstring> (or C<no-v> or C<no_v>)
+
+to discard the opening C<v> for values like C<< 1.2.3 >>.
+
+=item *
+
+C<decimal>
+
+for values like C<< 1.002003 >>.
+
+=back
+
+Defaults to C<decimal> for compatibility.
 
 =head2 version_regexp
 
@@ -219,21 +374,17 @@ I found L<Dist::Zilla::Plugin::Git::NextVersion>
 but missed the functionality I was used to with C<git-describe>.
 
 I started by forking L<Dist::Zilla::Plugin::Git> on github,
-but realized that if I wrote the logic into a Dist::Zilla plugin
+but realized that if I wrote the logic into a L<Dist::Zilla> plugin
 it wouldn't be available to my git repositories that weren't Perl distributions.
 
 So I wanted to extract the functionality to a module,
-include a L<Dist::Zilla::Role::VerionProvider> plugin,
+make a separate L<Dist::Zilla::Role::VerionProvider> plugin,
 and include a quick version that could be run with a minimal
 command line statement (so that I could put I<that> in my Makefiles).
 
 =head1 TODO
 
 =over 4
-
-=item *
-
-An attribute for specifying the output as floating point or dotted decimal.
 
 =item *
 
@@ -255,11 +406,11 @@ L<Git::DescribeVersion::App>
 
 =item *
 
-L<Dist::Zilla::Git::DescribeVersion>
+L<Dist::Zilla::Plugin::Git::DescribeVersion>
 
 =item *
 
-L<Git::Wrapper>
+L<Git::Repository> or L<Git::Wrapper>
 
 =item *
 
@@ -270,8 +421,6 @@ L<http://www.git-scm.com>
 L<version>
 
 =back
-
-=for :stopwords CPAN AnnoCPAN RT CPANTS Kwalitee diff
 
 =head1 SUPPORT
 
@@ -288,6 +437,12 @@ You can find documentation for this module with the perldoc command.
 Search CPAN
 
 L<http://search.cpan.org/dist/Git-DescribeVersion>
+
+=item *
+
+RT: CPAN's Bug Tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Git-DescribeVersion>
 
 =item *
 
@@ -309,12 +464,6 @@ L<http://cpanforum.com/dist/Git-DescribeVersion>
 
 =item *
 
-RT: CPAN's Bug Tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Git-DescribeVersion>
-
-=item *
-
 CPANTS Kwalitee
 
 L<http://cpants.perl.org/dist/overview/Git-DescribeVersion>
@@ -331,14 +480,6 @@ CPAN Testers Matrix
 
 L<http://matrix.cpantesters.org/?dist=Git-DescribeVersion>
 
-=item *
-
-Source Code Repository
-
-L<git://github.com/magnificent-tears/git-describeversion.git>
-
-L<http://github.com/magnificent-tears/git-describeversion/tree>
-
 =back
 
 =head2 Bugs
@@ -346,6 +487,13 @@ L<http://github.com/magnificent-tears/git-describeversion/tree>
 Please report any bugs or feature requests to C<bug-git-describeversion at rt.cpan.org>, or through
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Git-DescribeVersion>.  I will be
 notified, and then you'll automatically be notified of progress on your bug as I make changes.
+
+=head2 Source Code
+
+
+L<http://github.com/magnificent-tears/git-describeversion/tree>
+
+  git clone git://github.com/magnificent-tears/git-describeversion.git
 
 =head1 AUTHOR
 

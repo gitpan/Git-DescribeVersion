@@ -1,8 +1,8 @@
 package Git::DescribeVersion::App;
 BEGIN {
-  $Git::DescribeVersion::App::VERSION = '0.007006';
+  $Git::DescribeVersion::App::VERSION = '1.000010';
 }
-# ABSTRACT: run Git::DescribeVersion as one-line script
+# ABSTRACT: Run Git::DescribeVersion as one-line script
 
 use strict;
 use warnings;
@@ -36,13 +36,15 @@ sub run {
 __END__
 =pod
 
+=for :stopwords Randy Stauner
+
 =head1 NAME
 
-Git::DescribeVersion::App - run Git::DescribeVersion as one-line script
+Git::DescribeVersion::App - Run Git::DescribeVersion as one-line script
 
 =head1 VERSION
 
-version 0.007006
+version 1.000010
 
 =head1 SYNOPSIS
 
@@ -79,6 +81,16 @@ which are passed to the constructor.
 Also looks for arguments in %ENV.
 
 See L</SYNOPSIS>.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item *
+
+L<Git::DescribeVersion>
+
+=back
 
 =head1 AUTHOR
 

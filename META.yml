@@ -7,6 +7,7 @@ build_requires:
   File::Find: 0
   File::Temp: 0
   FindBin: 0
+  Test::MockObject: 0
   Test::MockObject::Extends: 1.09
   Test::More: 0.96
 configure_requires:
@@ -29,25 +30,24 @@ no_index:
 provides:
   Git::DescribeVersion:
     file: lib/Git/DescribeVersion.pm
-    version: 0.007006
+    version: 1.000010
   Git::DescribeVersion::App:
     file: lib/Git/DescribeVersion/App.pm
-    version: 0.007006
+    version: 1.000010
 requires:
-  Git::Wrapper: 0
   perl: 5.006
   version: 0.77
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Git-DescribeVersion
   homepage: http://github.com/magnificent-tears/git-describeversion/tree
   repository: git://github.com/magnificent-tears/git-describeversion.git
-version: 0.007006
+version: 1.000010
 x_Dist_Zilla:
   plugins:
     -
       class: Dist::Zilla::Plugin::Git::DescribeVersion
       name: '@GopherRepellent/Git::DescribeVersion'
-      version: 0.007006
+      version: 1.000010
     -
       class: Dist::Zilla::Plugin::GatherDir
       name: '@GopherRepellent/GatherDir'
@@ -161,6 +161,10 @@ x_Dist_Zilla:
       name: '@GopherRepellent/PodCoverageTests'
       version: 4.102343
     -
+      class: Dist::Zilla::Plugin::PodSpellingTests
+      name: '@GopherRepellent/PodSpellingTests'
+      version: 1.101420
+    -
       class: Dist::Zilla::Plugin::PortabilityTests
       name: '@GopherRepellent/PortabilityTests'
       version: 1.101420
@@ -187,6 +191,14 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::UploadToCPAN
       name: '@GopherRepellent/UploadToCPAN'
+      version: 4.102343
+    -
+      class: Dist::Zilla::Plugin::Prereqs
+      config:
+        Dist::Zilla::Plugin::Prereqs:
+          phase: runtime
+          type: suggests
+      name: RuntimeSuggests
       version: 4.102343
     -
       class: Dist::Zilla::Plugin::Prereqs

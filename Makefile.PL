@@ -16,7 +16,7 @@ my %WriteMakefileArgs = (
     'File::Find' => '0',
     'File::Temp' => '0',
     'FindBin' => '0',
-    'Test::MockObject' => '0',
+    'Test::MockObject' => '1.09',
     'Test::MockObject::Extends' => '1.09',
     'Test::More' => '0.96'
   },
@@ -28,9 +28,9 @@ my %WriteMakefileArgs = (
   'LICENSE' => 'perl',
   'NAME' => 'Git::DescribeVersion',
   'PREREQ_PM' => {
-    'version' => '0.77'
+    'version' => '0.82'
   },
-  'VERSION' => '1.000010',
+  'VERSION' => '1.001005',
   'test' => {
     'TESTS' => 't/*.t'
   }

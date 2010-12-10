@@ -1,6 +1,9 @@
 package Git::DescribeVersion::App;
 BEGIN {
-  $Git::DescribeVersion::App::VERSION = '1.000010';
+  $Git::DescribeVersion::App::VERSION = '1.001005';
+}
+BEGIN {
+  $Git::DescribeVersion::App::AUTHORITY = 'cpan:RWSTAUNER';
 }
 # ABSTRACT: Run Git::DescribeVersion as one-line script
 
@@ -44,7 +47,7 @@ Git::DescribeVersion::App - Run Git::DescribeVersion as one-line script
 
 =head1 VERSION
 
-version 1.000010
+version 1.001005
 
 =head1 SYNOPSIS
 

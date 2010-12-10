@@ -1,6 +1,9 @@
 package Git::DescribeVersion;
 BEGIN {
-  $Git::DescribeVersion::VERSION = '1.000010';
+  $Git::DescribeVersion::VERSION = '1.001005';
+}
+BEGIN {
+  $Git::DescribeVersion::AUTHORITY = 'cpan:RWSTAUNER';
 }
 # ABSTRACT: Use git-describe to show a repo's version
 
@@ -8,7 +11,7 @@ BEGIN {
 use strict;
 use warnings;
 
-use version 0.77 ();
+use version 0.82 ();
 
 our %Defaults = (
 	first_version 	=> 'v0.1',
@@ -40,6 +43,15 @@ sub new {
 		}
 	}
 	bless $self, $class;
+}
+
+
+sub format_version {
+	my ($self, $vobject) = @_;
+	my $format = $self->{format} =~ /dot|normal|v|string/ ? 'normal' : 'numify';
+	my $version = $vobject->$format;
+	$version =~ s/^v// if $self->{format} =~ /no.?v/;
+	return $version;
 }
 
 
@@ -133,21 +145,19 @@ sub parse_version {
 
 	# quote 'version' to reference the module and not call the local sub
 	my $vobject = eval {
+		# don't even try to parse it if it doesn't look like a version
 		'version'->parse($vstring)
-			#if version::is_lax($vstring); # version 0.82
+			if version::is_lax($vstring);
 	};
 
 	# Don't die if it's not parseable, just return nothing.
 	if( my $error = $@ || !$vobject ){
 		$error = $self->prepare_warning($error);
-		warn("Version '$vstring' not a valid version string.\n$error");
+		warn("'$vstring' is not a valid version string.\n$error");
 		return;
 	}
 
-	my $format = $self->{format} =~ /dot|normal|v|string/ ? 'normal' : 'numify';
-	my $version = $vobject->$format;
-	$version =~ s/^v// if $self->{format} =~ /no.?v/;
-	return $version;
+	return $self->format_version($vobject);
 }
 
 # normalize error message
@@ -216,7 +226,7 @@ Git::DescribeVersion - Use git-describe to show a repo's version
 
 =head1 VERSION
 
-version 1.000010
+version 1.001005
 
 =head1 SYNOPSIS
 
@@ -239,6 +249,11 @@ The constructor accepts a hash or hashref of options:
 	Git::DescribeVersion->new(opt1 => 'v1', opt2 => 'v2');
 
 See L</OPTIONS> for an explanation of the available options.
+
+=head2 format_version
+
+Format the supplied version object
+according to the L</format> attribute.
 
 =head2 git
 
@@ -315,30 +330,31 @@ Specify the output format for the version number.
 
 I had trouble determining the most reasonable names
 for the formats so a few variations are possible.
+(Pick the one which makes the most sense to you.)
 
 =over 4
 
 =item *
 
-C<dotted>, C<normal>, C<v-string> or C<v>
+I<dotted>, I<normal>, I<v-string> or I<v>
 
 for values like C<< v1.2.3 >>.
 
 =item *
 
-C<no-vstring> (or C<no-v> or C<no_v>)
+I<no-v-string> (or I<no-v> or I<no_v>)
 
 to discard the opening C<v> for values like C<< 1.2.3 >>.
 
 =item *
 
-C<decimal>
+I<decimal>
 
 for values like C<< 1.002003 >>.
 
 =back
 
-Defaults to C<decimal> for compatibility.
+Defaults to I<decimal> for compatibility.
 
 =head2 version_regexp
 
@@ -378,7 +394,7 @@ but realized that if I wrote the logic into a L<Dist::Zilla> plugin
 it wouldn't be available to my git repositories that weren't Perl distributions.
 
 So I wanted to extract the functionality to a module,
-make a separate L<Dist::Zilla::Role::VerionProvider> plugin,
+make a separate L<Dist::Zilla::Role::VersionProvider> plugin,
 and include a quick version that could be run with a minimal
 command line statement (so that I could put I<that> in my Makefiles).
 
@@ -393,6 +409,10 @@ Allow for more complex regexps (multiple groups) if there is a need.
 =item *
 
 Options for raising errors versus swallowing them?
+
+=item *
+
+Consider a dynamic installation to test C<`git --version`>.
 
 =back
 
@@ -491,9 +511,9 @@ notified, and then you'll automatically be notified of progress on your bug as I
 =head2 Source Code
 
 
-L<http://github.com/magnificent-tears/git-describeversion/tree>
+L<http://github.com/magnificent-tears/Git-DescribeVersion/tree>
 
-  git clone git://github.com/magnificent-tears/git-describeversion.git
+  git clone git://github.com/magnificent-tears/Git-DescribeVersion.git
 
 =head1 AUTHOR
 

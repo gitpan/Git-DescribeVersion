@@ -1,8 +1,35 @@
 Revision History for Git-DescribeVersion
 ========================================
 
-1.000010
+1.001005
 --------
+
+8376492 Update warning regexp to match recent change
+
+d9a5f1a Specify the Test::MockObject version required in each use statement
+
+0c07e30 Write a small test script for DZ plugin
+
+3d0ab0d Test new format_version() method to verify documentation
+
+0f44d30 Extract version formatting (from parse_version()) to its own method (format_version())
+
+v1.1 2010-12-10
+---------------
+
+c87c6fe Bump 'version' requirement to 0.82 and check is_lax() before attempting to parse
+
+4358f53 Replace the missing dash in 'v-string' in the 'format' POD section
+
+7422e54 Fix typo in POD module link
+
+802c5c4 Change POD formatting codes for format options from C to I
+
+53edf7c Note TODO item about a dynamic installation configuration that tests for `git`
+
+a37806c Skip backtick tests if not on linux/unix
+
+3178951 Use additional POD formatting codes (for file name and module links)
 
 e6db94d Actually test the expected warnings to cut down on the noise
 

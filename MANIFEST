@@ -14,12 +14,15 @@ t/app.t
 t/author-wrappers.t
 t/count-objects.t
 t/describe.t
+t/format_version.t
 t/lib/GitDVTest.pm
 t/parse_version.t
 t/release-distmeta.t
 t/release-kwalitee.t
 t/release-minimum-version.t
 t/release-pod-coverage.t
+t/release-pod-linkcheck.t
+t/release-pod-no404s.t
 t/release-pod-spell.t
 t/release-pod-syntax.t
 t/release-portability.t

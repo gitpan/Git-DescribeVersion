@@ -1,8 +1,8 @@
 use strict;
 use warnings;
 use Test::More tests => 3 * ((2 * 2) + 2); # wrappers * ((methods * tests) + extra tests)
-use Test::MockObject;
-use Test::MockObject::Extends;
+use Test::MockObject 1.09;
+use Test::MockObject::Extends 1.09;
 use Git::DescribeVersion ();
 
 my %opts = (
@@ -77,7 +77,10 @@ sub test_version_from {
 	);
 }
 
-{
+SKIP: {
+	skip 'backtick tests designed for Linux', 6
+		if $^O !~ /linux|unix/i;
+
 	my ($opt, $mod) = qw(git_backticks backticks);
 
 	my $gdv = Git::DescribeVersion->new(%opts, $opt => 'echo');

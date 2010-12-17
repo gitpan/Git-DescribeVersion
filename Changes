@@ -1,8 +1,20 @@
 Revision History for Git-DescribeVersion
 ========================================
 
-1.001005
+1.001011
 --------
+
+e2d0b5f Test "0th commit since tag"
+
+87a0175 Export &description from t/lib to DRY the fake git description (tag-commits-gSHA)
+
+9077b9e Return fake arguments when mocking in-between calls to avoid warnings after we've finished
+
+2720b90 Change '$count' to 0 if false (not just undefined) to catch null string as well
+
+eed182e Just "use 't/lib'" rather than using FindBin
+
+94fce77 Spell out 'repository' and space 'Version Provider' to pass the spell check for the README
 
 8376492 Update warning regexp to match recent change
 

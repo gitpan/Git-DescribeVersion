@@ -1,3 +1,4 @@
+Build.PL
 Changes
 LICENSE
 MANIFEST
@@ -10,6 +11,7 @@ examples/gitconfig
 lib/Git/DescribeVersion.pm
 lib/Git/DescribeVersion/App.pm
 t/00-compile.t
+t/000-report-versions-tiny.t
 t/app.t
 t/author-wrappers.t
 t/count-objects.t

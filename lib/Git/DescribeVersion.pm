@@ -1,6 +1,6 @@
 package Git::DescribeVersion;
 BEGIN {
-  $Git::DescribeVersion::VERSION = '1.001005';
+  $Git::DescribeVersion::VERSION = '1.001011';
 }
 BEGIN {
   $Git::DescribeVersion::AUTHORITY = 'cpan:RWSTAUNER';
@@ -125,8 +125,7 @@ sub parse_version {
 	# trying to parse it, default to first_version.
 	$prefix = $self->{first_version}
 		unless defined $prefix;
-	$count  = 0
-		unless defined $count;
+	$count ||= 0;
 
 	# If still undef (first_version explicitly set to undef)
 	# don't die trying to parse it, just return nothing.
@@ -218,7 +217,7 @@ sub version_from_count_objects {
 __END__
 =pod
 
-=for :stopwords Randy Stauner repo's todo CPAN AnnoCPAN RT CPANTS Kwalitee diff
+=for :stopwords Randy Stauner repo's todo CPAN AnnoCPAN RT CPANTS Kwalitee diff IRC
 
 =head1 NAME
 
@@ -226,7 +225,7 @@ Git::DescribeVersion - Use git-describe to show a repo's version
 
 =head1 VERSION
 
-version 1.001005
+version 1.001011
 
 =head1 SYNOPSIS
 
@@ -450,6 +449,9 @@ You can find documentation for this module with the perldoc command.
 
 =head2 Websites
 
+The following websites have more information about this module, and may be of help to you. As always,
+in addition to those websites please use your favorite search engine to discover more resources.
+
 =over 4
 
 =item *
@@ -502,9 +504,9 @@ L<http://matrix.cpantesters.org/?dist=Git-DescribeVersion>
 
 =back
 
-=head2 Bugs
+=head2 Bugs / Feature Requests
 
-Please report any bugs or feature requests to C<bug-git-describeversion at rt.cpan.org>, or through
+Please report any bugs or feature requests by email to C<bug-git-describeversion at rt.cpan.org>, or through
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Git-DescribeVersion>.  I will be
 notified, and then you'll automatically be notified of progress on your bug as I make changes.
 

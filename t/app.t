@@ -5,8 +5,7 @@ eval "use Test::Output";
 plan skip_all => "Test::Output required for testing STDOUT"
 	if $@;
 
-use FindBin;
-use lib "$FindBin::Bin/lib";
+use lib 't/lib';
 use GitDVTest;
 
 plan tests => @commits * @versions * 3 * 2; # commits * versions * formats * (run + App->run)
@@ -18,7 +17,7 @@ my $gv = {git_wrapper => $mock};
 use Git::DescribeVersion::App;
 
 foreach my $commits ( @commits ){
-	$mock->set_series('describe', map { ("$$_[0]-${commits}-gdeadbeef") x (3 * 2) } @versions);
+	$mock->set_series('describe', map { (description($$_[0], $commits)) x (3 * 2) } @versions);
 	foreach my $version ( @versions ){
 	test_expectations($gv, $version, $commits, sub {
 		my ($exp, $desc) = @_;

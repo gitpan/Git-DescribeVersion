@@ -3,6 +3,7 @@ use strict;
 use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = qw(
+	&description
 	&expect_warning
 	&expectation
 	&test_expectations
@@ -18,6 +19,9 @@ use version 0.77;
 my $test_warn_mod = 'Test::Output';
 my $test_warn = eval "use $test_warn_mod; 1";
 $test_warn = 0 if $@;
+
+# use sprintf for ease/clarity; use %d to turn '' into 0
+sub description { sprintf '%s-%d-%s', $_[0], $_[1], 'gdeadbeef' }
 
 sub expect_warning ($$;$) {
 	my $sub = pop @_;
@@ -40,7 +44,7 @@ sub expectation ($$$) {
 	my ($gv, $version, $count) = @_;
 	my ($tag, $dec, $dot, $regexp) = @$version;
 	$tag = '~' if !defined $tag;
-	$count = 0 if !defined $count;
+	$count ||= 0;
 
 	# hack
 	$gv->{version_regexp} = $regexp ||
@@ -106,7 +110,7 @@ our @versions = map { [(split(/\s+/))[1, 2, 3, 4]] } split(/\n/, <<TAGS);
 	date-12.05-ver-10.21-foo  12.005    v12.5
 TAGS
 
-our @commits = qw(8 12 49 99 135 999 1234);
+our @commits = qw(0 8 12 49 99 135 999 1234);
 
 # make sub-arrays like (['0', 'count: 0', 'size: 0'])
 our @counts = map { [split(/\n/)] } split(/\n\n/, <<COUNTS);

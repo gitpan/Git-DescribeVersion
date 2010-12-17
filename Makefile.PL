@@ -15,7 +15,7 @@ my %WriteMakefileArgs = (
     'Exporter' => '0',
     'File::Find' => '0',
     'File::Temp' => '0',
-    'FindBin' => '0',
+    'ExtUtils::MakeMaker' => '6.31',
     'Test::MockObject' => '1.09',
     'Test::MockObject::Extends' => '1.09',
     'Test::More' => '0.96'
@@ -30,7 +30,7 @@ my %WriteMakefileArgs = (
   'PREREQ_PM' => {
     'version' => '0.82'
   },
-  'VERSION' => '1.001005',
+  'VERSION' => '1.001011',
   'test' => {
     'TESTS' => 't/*.t'
   }

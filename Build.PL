@@ -23,16 +23,19 @@ my %module_build_args = (
     'Randy Stauner <rwstauner@cpan.org>'
   ],
   'dist_name' => 'Git-DescribeVersion',
-  'dist_version' => '1.001011',
+  'dist_version' => '1.003',
   'license' => 'perl',
   'module_name' => 'Git::DescribeVersion',
   'recommends' => {},
   'recursive_test_files' => 1,
   'requires' => {
+    'Getopt::Long' => '0',
     'perl' => '5.006',
     'version' => '0.82'
   },
-  'script_files' => []
+  'script_files' => [
+    'bin/git-describe-version'
+  ]
 );
 
 

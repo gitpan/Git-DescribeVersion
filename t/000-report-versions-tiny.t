@@ -51,6 +51,7 @@ sub pmver {
 eval { $v .= pmver('Exporter','any version') };
 eval { $v .= pmver('File::Find','any version') };
 eval { $v .= pmver('File::Temp','any version') };
+eval { $v .= pmver('Getopt::Long','any version') };
 eval { $v .= pmver('Git::Repository','1.14') };
 eval { $v .= pmver('Module::Build','0.3601') };
 eval { $v .= pmver('Test::MockObject','1.09') };

@@ -1,282 +1,50 @@
-Revision History for Git-DescribeVersion
-========================================
+Revision history for Git::DescribeVersion
 
-1.001011
---------
+1.003     2011-07-15T00:00:55Z
 
-e2d0b5f Test "0th commit since tag"
+  - Add git-describe-version executable
+  - Make Git::DescribeVersion::App::run look in @ARGV as well
 
-87a0175 Export &description from t/lib to DRY the fake git description (tag-commits-gSHA)
+  - Improvements to documentation and tests
+  - Superficial dist/release changes
 
-9077b9e Return fake arguments when mocking in-between calls to avoid warnings after we've finished
+1.001011  2010-12-17T04:25:14Z
 
-2720b90 Change '$count' to 0 if false (not just undefined) to catch null string as well
+  - Improve handling of trailing zeroes ("0th commit since tag")
+  - Improvements to documentation and tests
+  - use Module::Build
 
-eed182e Just "use 't/lib'" rather than using FindBin
+1.001005  2010-12-10T19:29:26Z
 
-94fce77 Spell out 'repository' and space 'Version Provider' to pass the spell check for the README
+  - Require 0.82 of version.pm (instead of 0.77)
+  - Improvements to documentation and tests
 
-8376492 Update warning regexp to match recent change
+1.000010  2010-12-07T21:07:07Z
 
-d9a5f1a Specify the Test::MockObject version required in each use statement
+  - Add option to specify desired version format
+    (dotted-decimal, decimal, or dotted w/o the leading 'v')
+  - Enable module to work with Git::Wrapper, Git::Repository, or `git`
+  - Improvements to documentation and tests
 
-0c07e30 Write a small test script for DZ plugin
+0.007006  2010-11-17T16:22:16Z
 
-3d0ab0d Test new format_version() method to verify documentation
+  - Moved Dist::Zilla::Plugin::Git::DescribeVersion to a separate dist
 
-0f44d30 Extract version formatting (from parse_version()) to its own method (format_version())
+0.006013  2010-11-17T03:55:00Z
 
-v1.1 2010-12-10
----------------
+  - Add example gitconfig usage
 
-c87c6fe Bump 'version' requirement to 0.82 and check is_lax() before attempting to parse
+0.006012  2010-11-15T21:27:00Z
 
-4358f53 Replace the missing dash in 'v-string' in the 'format' POD section
+  - Allow Git::DescribeVersion::App::run() to be called as a class method
+  - Change default 'version_regexp' to catch a wider variety of tag patterns
+  - Improvements to documentation and tests
 
-7422e54 Fix typo in POD module link
+0.005011  2010-11-09T19:34:00Z
 
-802c5c4 Change POD formatting codes for format options from C to I
+  - Catch 'describe' errors and show a warning
+  - Improvements to documentation and tests
 
-53edf7c Note TODO item about a dynamic installation configuration that tests for `git`
+0.004008  2010-10-25T06:09:00Z
 
-a37806c Skip backtick tests if not on linux/unix
-
-3178951 Use additional POD formatting codes (for file name and module links)
-
-e6db94d Actually test the expected warnings to cut down on the noise
-
-d2ff780 Export expect_warning function from t/lib to wrap Test::Output so it isn't required
-
-b80b79b Avoid 'uninitialized' warnings in test descriptions by replacing undef with tilde
-
-68868ef Document the 'format' attribute and its possible values
-
-06d6c36 Adjust sprintf spec slightly to allow for testing tags with only 2 pieces
-
-e5cb317 Test parse_version with the other formats and make usage more consistent with other t/ scripts
-
-9cc6d66 Handle undef values in t/lib expectation()
-
-65b1bb4 Add t/lib function to wrap doing the same test for each format
-
-965ffed Alter versions/expectations to test all 3 possible output formats
-
-c46689d Allow the optional character b/t 'no' and 'v' to be anything
-
-v1.0 2010-12-07
----------------
-
-b883289 Add 'format' option for specifying the version object format
-
-9fce11d Catch version parsing errors and return undef
-
-0740dcd Create prepare_warning() method to centralize warning message normalization
-
-59f8347 Document the behavior of specifying undef for first_version
-
-a22bdfd Print diagnostic message right before warning to make it appear more deliberate
-
-61e4526 Test parse_version() (and it's new validations)
-
-58ad9c5 Replace undefined values to parse_version() with defaults or return nothing
-
-v0.10 2010-12-06
-----------------
-
-3f34ea8 Revert "Change version_from* subs to return list and call parse_version() once from version()"
-
-9f943e1 Make argument order in POD example match exact call
-
-e0589d7 Uppercase referenced author id's and add them as stopwords
-
-379a4f1 Suggest installing Git::Repository
-
-0ad265c Add two scripts to test the various wrapper invocations
-
-v0.9 2010-12-06
----------------
-
-37c2fd9 Attempt to load Git::Repository or Git::Wrapper or fall back to backticks
-
-v0.8 2010-12-06
----------------
-
-e50d8b0 Change version_from* subs to return list and call parse_version() once from version()
-
-f8deaad Remove useless arbitrary numeric prefix from test script names
-
-93eb16b Add isa_ok tests to the individual test scripts and remove the useless 00-smoke.t
-
-7056bba Don't load/wrap a real module with Test::MockObject::Extends when we're mocking all the methods we call
-
-f2ba4b4 Add stopwords for pod spell check
-
-66e98d1 Capitalize abstract descriptions
-
-8fc685c Explicitly end the test lib with a true value (just in case)
-
-cd3341c Explicitly specify and link to Git::DV->new() to clarify POD
-
-a07eb00 Add SEE ALSO Section and link back to main module
-
-e076fd7 Fix typo in POD module link (insert missing 'Plugin')
-
-1642f7f Clarify in POD that the dz plugin is separate (no longer included)
-
-f719d34 Enable AutoPrereqs and stop listing the obvious ones explicitly
-
-f8d40c2 Configure new plugin dist
-
-f58a4ee Add tailored gitignore file
-
-2fe251f Move Dist::Zilla example ini to plugin/examples
-
-95c8a87 Don't bother to skip files that [dw]on't exist
-
-32cdc44 Exclude the dist-zilla-plugin directory from the main module's build
-
-v0.7 2010-11-17
----------------
-
-b2ac327 Move Dist::Zilla plugin to a subdirectory to be released in a separate tarball
-
-6e7737b Add example git config alias
-
-9479e15 Fix POD typo of misnamed argument to git command
-
-d548eea Update examples: comment on Makefile purpose and remove unnecessary argument
-
-b51a842 Use @GopherRepellent plugin bundle to simplify ini's
-
-f27984d Allow App::run() to be called as a package method for consistency with other App modules
-
-e1e78e2 Specify versions required for test modules
-
-554c081 Test App module with Test::Output (if available)
-
-02080de Shorten ABSTRACT lines to fit in 44 characters
-
-0aafd5f Control the link to the 'version' module as specified in Hints section of perlpod
-
-525320e Include DZ plugins for minimum perl version and portability tests
-
-244cba5 Remove the superfluous '^\D*' from the default 'version_regexp'
-
-3deff53 Add a variety of tag patterns to test the new 'version_regexp'
-
-8c8b3d7 Word the Options POD sections more consistently
-
-v0.6 2010-11-10
----------------
-
-a28ca49 Change the default 'version_regexp' to catch a wider variety of tag patterns
-
-6d7e325 Improve POD: Spell out 'repository' and link to options when referring to them
-
-8d0e175 Move duplicated test preparation code into t/lib
-
-fb923b7 Replace MetaResources with Repository and include MetaJSON to utilize it
-
-8ff7b5c Include extra release/author tests using Dist::Zilla plugins
-
-b3fe020 Remove complete TODO items from POD
-
-a713a63 Anchor the 'dist.ini' line to skip the root file but include the example file
-
-81071b0 Generate change log for build tarball from git commit history
-
-386b415 Add usage examples to increase kwalitee
-
-8fe0de1 Include alternate tag styles to test the 'version_regexp' option
-
-5248d0a Smoke test load, import, and constructor
-
-b10e7cf Rename 'tags' to 'describe' for clarity and consistency
-
-d94acd4 Test count-objects
-
-ea2995d Simplify the mocking of Git::Wrapper for future re-use
-
-v0.5 2010-11-08
----------------
-
-0b1e79f Fix uncaught failure of 'describe' bug and show warning
-
-a4e116d Move s/// with version_regexp to parse_version()
-
-421e3bb Move arrays of sample data out to t/lib/
-
-93f7c99 Add test data for "v2"
-
-eeec33a Write short POD for run() method to appease Pod::Coverage
-
-4fef892 Test that given tags produce expected version strings
-
-d4238b4 Fix up some POD formatting to be more consistent and readable
-
-45f0fad Include a simple README file to make github happy
-
-6dbf3f2 Use MetaResources to add repository information
-
-a1e7399 Give thanks to others that likely contributed to Dist::Zilla and it's Git PluginBundle
-
-1e7c9be Document parse_version() (and move it up for better organization)
-
-e552b47 Document methods with POD
-
-40587a9 Move TODO comment to POD section
-
-3aa5029 Link the reference to Dist::Zilla VersionProvider in POD
-
-a5504f7 Add more examples for the App::run() usage possibilities
-
-v0.4 2010-10-24
----------------
-
-f4716a0 Trade the initial argument for a 'directory' option so that all arguments are in the hash[ref]
-
-17f37b1 Improve grammar in POD
-
-f464e14 Fix inconsistent spacing and consider another attribute in a TODO comment
-
-561887c Ignore unnecessary files when building the distribution
-
-622024c Explicitly =cut the POD at the end of the file
-
-9668e0a Change email address from personal to pause
-
-e4c8ff5 Update SEE ALSO links in main POD
-
-6303c0c Add History/Rationale section to main module's POD
-
-82d2e54 Shorten main module abstract to fit in 44 character limit
-
-ddd6476 Improve readability in POD sentence
-
-d580e3b Remove the apostrophe-s in the ABSTRACT
-
-b061428 List 'version' 0.77 in prerequisites
-
-30721be Add SYNOPSIS POD
-
-2210c71 Use Pod::Elemental::Transformer::List with PodWeaver
-
-v0.3 2010-10-16
----------------
-
-e987e9d Add Dist::Zilla plugin based on Plugin::Git::NextVersion
-
-48c40bd Document usage and options with POD
-
-58564b5 Don't require the version_regexp option to have the v next to the first digit
-
-e208a61 Add simple module for executing in one line
-
-v0.2 2010-10-16
----------------
-
-6b4f7a6 Fabricate version from git-count-objects if git-describe fails
-
-===================================
-End of changes in the last 365 days
-===================================
+  - Initial Release to CPAN

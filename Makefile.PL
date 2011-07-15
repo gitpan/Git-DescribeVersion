@@ -2,9 +2,9 @@
 use strict;
 use warnings;
 
-BEGIN { require 5.006; }
+use 5.006;
 
-use ExtUtils::MakeMaker 6.31;
+use ExtUtils::MakeMaker 6.30;
 
 
 
@@ -15,22 +15,25 @@ my %WriteMakefileArgs = (
     'Exporter' => '0',
     'File::Find' => '0',
     'File::Temp' => '0',
-    'ExtUtils::MakeMaker' => '6.31',
+    'ExtUtils::MakeMaker' => '6.30',
     'Test::MockObject' => '1.09',
     'Test::MockObject::Extends' => '1.09',
     'Test::More' => '0.96'
   },
   'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.31'
+    'ExtUtils::MakeMaker' => '6.30'
   },
   'DISTNAME' => 'Git-DescribeVersion',
-  'EXE_FILES' => [],
+  'EXE_FILES' => [
+    'bin/git-describe-version'
+  ],
   'LICENSE' => 'perl',
   'NAME' => 'Git::DescribeVersion',
   'PREREQ_PM' => {
+    'Getopt::Long' => '0',
     'version' => '0.82'
   },
-  'VERSION' => '1.001011',
+  'VERSION' => '1.003',
   'test' => {
     'TESTS' => 't/*.t'
   }

@@ -48,17 +48,20 @@ sub pmver {
     return sprintf('%-45s => %-10s%-15s%s', $module, $pmver, $wanted, "\n");
 }
 
+eval { $v .= pmver('Carp','any version') };
 eval { $v .= pmver('Exporter','any version') };
+eval { $v .= pmver('ExtUtils::MakeMaker','6.30') };
 eval { $v .= pmver('File::Find','any version') };
 eval { $v .= pmver('File::Temp','any version') };
 eval { $v .= pmver('Getopt::Long','any version') };
 eval { $v .= pmver('Git::Repository','1.14') };
-eval { $v .= pmver('Module::Build','0.3601') };
 eval { $v .= pmver('Test::MockObject','1.09') };
 eval { $v .= pmver('Test::MockObject::Extends','1.09') };
 eval { $v .= pmver('Test::More','0.96') };
 eval { $v .= pmver('Test::Output','0.16') };
+eval { $v .= pmver('strict','any version') };
 eval { $v .= pmver('version','0.82') };
+eval { $v .= pmver('warnings','any version') };
 
 
 

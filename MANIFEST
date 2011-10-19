@@ -1,4 +1,3 @@
-Build.PL
 Changes
 LICENSE
 MANIFEST
@@ -8,6 +7,7 @@ META.yml
 Makefile.PL
 README
 bin/git-describe-version
+dist.ini
 examples/Makefile
 examples/gitconfig
 lib/Git/DescribeVersion.pm
@@ -19,10 +19,12 @@ t/app.t
 t/count-objects.t
 t/describe.t
 t/format_version.t
+t/git-repo.t
 t/lib/GitDVTest.pm
 t/parse_version.t
 t/wrappers.t
 xt/author/critic.t
+xt/author/pod-spell.t
 xt/author/wrappers.t
 xt/release/cpan-changes.t
 xt/release/dist-manifest.t
@@ -35,7 +37,6 @@ xt/release/mojibake.t
 xt/release/no-tabs.t
 xt/release/pod-coverage.t
 xt/release/pod-linkcheck.t
-xt/release/pod-spell.t
 xt/release/pod-syntax.t
 xt/release/portability.t
 xt/release/synopsis.t

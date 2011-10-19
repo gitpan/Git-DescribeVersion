@@ -11,14 +11,15 @@ use strict;
 use warnings;
 
 package Git::DescribeVersion;
-BEGIN {
-  $Git::DescribeVersion::VERSION = '1.003';
+{
+  $Git::DescribeVersion::VERSION = '1.010';
 }
 BEGIN {
   $Git::DescribeVersion::AUTHORITY = 'cpan:RWSTAUNER';
 }
 # ABSTRACT: Use git-describe to show a repo's version
 
+use Carp (); # core
 use version 0.82 ();
 
 our %Defaults = (
@@ -26,6 +27,13 @@ our %Defaults = (
   match_pattern   => 'v[0-9]*',
   format      => 'decimal',
   version_regexp  => '([0-9._]+)'
+);
+
+# Git::Repository is easier to install than Git::Wrapper
+my @delegators = qw(
+  git_repository
+  git_wrapper
+  git_backticks
 );
 
 
@@ -40,17 +48,26 @@ sub new {
   };
 
   $self->{directory} = $opts{directory} || '.';
+  bless $self, $class;
+
   # accept a Git::Repository or Git::Wrapper object (or command to exec)
   # or a simple '1' (true value) to indicate which one is desired
-  foreach my $mod ( qw(git_repository git_wrapper git_backticks) ){
+  foreach my $mod ( @delegators ){
     if( $opts{$mod} ){
       $self->{git} = $mod;
       # if it's just a true value leave it blank so we create later
+      # TODO: should this be checking ref?
       $self->{$mod} = $opts{$mod}
         unless $opts{$mod} eq '1';
+      # test that requested method "works"
+      eval { $self->$mod('--version') };
+      if( $@ ){
+        Carp::carp qq[Failed to execute $mod (will attempt other methods): $@];
+        delete @$self{(git => $mod)};
+      }
     }
   }
-  bless $self, $class;
+  return $self;
 }
 
 
@@ -68,16 +85,16 @@ sub format_version {
 sub git {
   my ($self) = @_;
   unless( $self->{git} ){
-    # Git::Repository is easier to install than Git::Wrapper
-    if( eval 'require Git::Repository; 1' ){
-      $self->{git} = 'git_repository';
+    for my $method ( @delegators ){
+      $self->{git} ||= eval {
+        # confirm method works (without dying)
+        $self->$method('--version');
+        $method;
+      };
     }
-    elsif( eval 'require Git::Wrapper; 1' ){
-      $self->{git} = 'git_wrapper';
-    }
-    else {
-      $self->{git} = 'git_backticks';
-    }
+    Carp::croak("All git methods failed.  Is `git` installed?\n".
+      "Consider installing Git::Repository or Git::Wrapper.\n")
+      unless $self->{git};
   }
   goto &{$self->{git}};
 }
@@ -88,12 +105,16 @@ sub git_backticks {
     "Consider installing Git::Repository or Git::Wrapper.\n")
       if $self->{directory} && $self->{directory} ne '.';
 
+  @args = map { ref $_ ? @$_ : $_ } @args;
+
+  @args = map { quotemeta } @args
+    unless $^O eq 'MSWin32';
+
   my $exec = join(' ',
-    map { quotemeta }
       # the external app to run
       ($self->{git_backticks} ||= 'git'),
       $command,
-      map { ref $_ ? @$_ : $_ } @args
+      @args
   );
 
   return (`$exec`);
@@ -101,9 +122,14 @@ sub git_backticks {
 
 sub git_repository {
   my ($self, $command, @args) = @_;
+  # Git::Repository 1.22 fails with alternate $/ (rt-71621)
+  local $/ = "\n";
   (
     $self->{git_repository} ||=
+    do {
+      require Git::Repository;
       Git::Repository->new(work_tree => $self->{directory})
+    }
   )
     ->run($command,
       map { ref $_ ? @$_ : $_ } @args
@@ -115,7 +141,10 @@ sub git_wrapper {
   $command =~ tr/-/_/;
   (
     $self->{git_wrapper} ||=
+    do {
+      require Git::Wrapper;
       Git::Wrapper->new($self->{directory})
+    }
   )
     ->$command({
       map { ($$_[0] =~ /^-{0,2}(.+)$/, $$_[1]) }
@@ -225,8 +254,10 @@ sub version_from_count_objects {
 __END__
 =pod
 
-=for :stopwords Randy Stauner repo's todo cpan testmatrix url annocpan anno bugtracker rt
-cpants kwalitee diff irc mailto metadata placeholders
+=for :stopwords Randy Stauner ACKNOWLEDGEMENTS repo's todo cpan testmatrix url annocpan
+anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders
+
+=encoding utf-8
 
 =head1 NAME
 
@@ -234,7 +265,7 @@ Git::DescribeVersion - Use git-describe to show a repo's version
 
 =head1 VERSION
 
-version 1.003
+version 1.010
 
 =head1 SYNOPSIS
 
@@ -530,9 +561,9 @@ progress on the request by the system.
 =head2 Source Code
 
 
-L<http://github.com/rwstauner/Git-DescribeVersion>
+L<https://github.com/rwstauner/Git-DescribeVersion>
 
-  git clone http://github.com/rwstauner/Git-DescribeVersion
+  git clone https://github.com/rwstauner/Git-DescribeVersion.git
 
 =head1 AUTHOR
 

@@ -9,33 +9,35 @@ use ExtUtils::MakeMaker 6.30;
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'Use git-describe to show a repo\'s version',
-  'AUTHOR' => 'Randy Stauner <rwstauner@cpan.org>',
-  'BUILD_REQUIRES' => {
-    'Exporter' => '0',
-    'File::Find' => '0',
-    'File::Temp' => '0',
-    'ExtUtils::MakeMaker' => '6.30',
-    'Test::MockObject' => '1.09',
-    'Test::MockObject::Extends' => '1.09',
-    'Test::More' => '0.96'
+  "ABSTRACT" => "Use git-describe to show a repo's version",
+  "AUTHOR" => "Randy Stauner <rwstauner\@cpan.org>",
+  "BUILD_REQUIRES" => {
+    "Exporter" => 0,
+    "File::Find" => 0,
+    "File::Temp" => 0,
+    "Test::MockObject" => "1.09",
+    "Test::MockObject::Extends" => "1.09",
+    "Test::More" => "0.96"
   },
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.30'
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
   },
-  'DISTNAME' => 'Git-DescribeVersion',
-  'EXE_FILES' => [
-    'bin/git-describe-version'
+  "DISTNAME" => "Git-DescribeVersion",
+  "EXE_FILES" => [
+    "bin/git-describe-version"
   ],
-  'LICENSE' => 'perl',
-  'NAME' => 'Git::DescribeVersion',
-  'PREREQ_PM' => {
-    'Getopt::Long' => '0',
-    'version' => '0.82'
+  "LICENSE" => "perl",
+  "NAME" => "Git::DescribeVersion",
+  "PREREQ_PM" => {
+    "Carp" => 0,
+    "Getopt::Long" => 0,
+    "strict" => 0,
+    "version" => "0.82",
+    "warnings" => 0
   },
-  'VERSION' => '1.003',
-  'test' => {
-    'TESTS' => 't/*.t'
+  "VERSION" => "1.010",
+  "test" => {
+    "TESTS" => "t/*.t"
   }
 );
 

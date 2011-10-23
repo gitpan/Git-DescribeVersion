@@ -12,6 +12,7 @@ my %WriteMakefileArgs = (
   "ABSTRACT" => "Use git-describe to show a repo's version",
   "AUTHOR" => "Randy Stauner <rwstauner\@cpan.org>",
   "BUILD_REQUIRES" => {
+    "Cwd" => 0,
     "Exporter" => 0,
     "File::Find" => 0,
     "File::Temp" => 0,
@@ -35,7 +36,7 @@ my %WriteMakefileArgs = (
     "version" => "0.82",
     "warnings" => 0
   },
-  "VERSION" => "1.010",
+  "VERSION" => "1.011",
   "test" => {
     "TESTS" => "t/*.t"
   }

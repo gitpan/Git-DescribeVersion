@@ -49,6 +49,7 @@ sub pmver {
 }
 
 eval { $v .= pmver('Carp','any version') };
+eval { $v .= pmver('Cwd','any version') };
 eval { $v .= pmver('Exporter','any version') };
 eval { $v .= pmver('ExtUtils::MakeMaker','6.30') };
 eval { $v .= pmver('File::Find','any version') };

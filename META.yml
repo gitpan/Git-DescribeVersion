@@ -3,6 +3,7 @@ abstract: "Use git-describe to show a repo's version"
 author:
   - 'Randy Stauner <rwstauner@cpan.org>'
 build_requires:
+  Cwd: 0
   Exporter: 0
   File::Find: 0
   File::Temp: 0
@@ -34,10 +35,10 @@ no_index:
 provides:
   Git::DescribeVersion:
     file: lib/Git/DescribeVersion.pm
-    version: 1.010
+    version: 1.011
   Git::DescribeVersion::App:
     file: lib/Git/DescribeVersion/App.pm
-    version: 1.010
+    version: 1.011
 requires:
   Carp: 0
   Getopt::Long: 0
@@ -49,7 +50,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Git-DescribeVersion
   homepage: https://github.com/rwstauner/Git-DescribeVersion
   repository: https://github.com/rwstauner/Git-DescribeVersion.git
-version: 1.010
+version: 1.011
 x_Dist_Zilla:
   plugins:
     -
@@ -215,7 +216,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Test::Kwalitee
       name: '@Author::RWSTAUNER/@TestingMania/Test::Kwalitee'
-      version: 2.020000
+      version: 2.03
     -
       class: Dist::Zilla::Plugin::NoTabsTests
       name: '@Author::RWSTAUNER/@TestingMania/NoTabsTests'

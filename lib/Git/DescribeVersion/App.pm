@@ -12,7 +12,7 @@ use warnings;
 
 package Git::DescribeVersion::App;
 {
-  $Git::DescribeVersion::App::VERSION = '1.010';
+  $Git::DescribeVersion::App::VERSION = '1.011';
 }
 BEGIN {
   $Git::DescribeVersion::App::AUTHORITY = 'cpan:RWSTAUNER';
@@ -97,7 +97,7 @@ Git::DescribeVersion::App - Run Git::DescribeVersion as one-line script
 
 =head1 VERSION
 
-version 1.010
+version 1.011
 
 =head1 SYNOPSIS
 

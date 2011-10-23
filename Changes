@@ -1,5 +1,10 @@
 Revision history for Git::DescribeVersion
 
+1.011     2011-10-23T01:29:09Z
+
+  [Tests]
+  - Display git command output upon test failure (for debugging reports)
+
 1.010     2011-10-19T20:31:43Z
 
   - Fallback to another git wrapper if one fails.

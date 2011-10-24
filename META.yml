@@ -35,10 +35,10 @@ no_index:
 provides:
   Git::DescribeVersion:
     file: lib/Git/DescribeVersion.pm
-    version: 1.011
+    version: 1.012
   Git::DescribeVersion::App:
     file: lib/Git/DescribeVersion/App.pm
-    version: 1.011
+    version: 1.012
 requires:
   Carp: 0
   Getopt::Long: 0
@@ -50,7 +50,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Git-DescribeVersion
   homepage: https://github.com/rwstauner/Git-DescribeVersion
   repository: https://github.com/rwstauner/Git-DescribeVersion.git
-version: 1.011
+version: 1.012
 x_Dist_Zilla:
   plugins:
     -

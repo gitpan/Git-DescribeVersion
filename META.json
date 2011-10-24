@@ -67,11 +67,11 @@
    "provides" : {
       "Git::DescribeVersion" : {
          "file" : "lib/Git/DescribeVersion.pm",
-         "version" : "1.011"
+         "version" : "1.012"
       },
       "Git::DescribeVersion::App" : {
          "file" : "lib/Git/DescribeVersion/App.pm",
-         "version" : "1.011"
+         "version" : "1.012"
       }
    },
    "release_status" : "stable",
@@ -87,7 +87,7 @@
          "web" : "https://github.com/rwstauner/Git-DescribeVersion"
       }
    },
-   "version" : "1.011",
+   "version" : "1.012",
    "x_Dist_Zilla" : {
       "plugins" : [
          {

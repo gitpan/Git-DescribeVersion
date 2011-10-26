@@ -12,7 +12,7 @@ use warnings;
 
 package Git::DescribeVersion;
 {
-  $Git::DescribeVersion::VERSION = '1.012';
+  $Git::DescribeVersion::VERSION = '1.013';
 }
 BEGIN {
   $Git::DescribeVersion::AUTHORITY = 'cpan:RWSTAUNER';
@@ -265,7 +265,7 @@ Git::DescribeVersion - Use git-describe to show a repo's version
 
 =head1 VERSION
 
-version 1.012
+version 1.013
 
 =head1 SYNOPSIS
 

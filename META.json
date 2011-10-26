@@ -67,11 +67,11 @@
    "provides" : {
       "Git::DescribeVersion" : {
          "file" : "lib/Git/DescribeVersion.pm",
-         "version" : "1.012"
+         "version" : "1.013"
       },
       "Git::DescribeVersion::App" : {
          "file" : "lib/Git/DescribeVersion/App.pm",
-         "version" : "1.012"
+         "version" : "1.013"
       }
    },
    "release_status" : "stable",
@@ -87,7 +87,7 @@
          "web" : "https://github.com/rwstauner/Git-DescribeVersion"
       }
    },
-   "version" : "1.012",
+   "version" : "1.013",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
@@ -173,7 +173,7 @@
          {
             "class" : "Dist::Zilla::Plugin::GithubMeta",
             "name" : "@Author::RWSTAUNER/GithubMeta",
-            "version" : "0.22"
+            "version" : "0.26"
          },
          {
             "class" : "Dist::Zilla::Plugin::AutoPrereqs",

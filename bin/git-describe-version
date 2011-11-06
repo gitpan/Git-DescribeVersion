@@ -32,7 +32,7 @@ git-describe-version - Enable "git describe-version" command
 
 =head1 VERSION
 
-version 1.013
+version 1.014
 
 =head1 DESCRIPTION
 

@@ -22,9 +22,9 @@ Git::DescribeVersion::App->run();
 __END__
 =pod
 
-=for :stopwords Randy Stauner ACKNOWLEDGEMENTS
-
 =encoding utf-8
+
+=for :stopwords Randy Stauner ACKNOWLEDGEMENTS repo
 
 =head1 NAME
 
@@ -32,7 +32,7 @@ git-describe-version - Enable "git describe-version" command
 
 =head1 VERSION
 
-version 1.014
+version 1.015
 
 =head1 DESCRIPTION
 

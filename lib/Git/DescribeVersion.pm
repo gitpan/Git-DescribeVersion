@@ -12,8 +12,10 @@ use warnings;
 
 package Git::DescribeVersion;
 {
-  $Git::DescribeVersion::VERSION = '1.014';
+  $Git::DescribeVersion::VERSION = '1.015';
 }
+# git description: v1.014-6-g81d7192
+
 BEGIN {
   $Git::DescribeVersion::AUTHORITY = 'cpan:RWSTAUNER';
 }
@@ -254,10 +256,11 @@ sub version_from_count_objects {
 __END__
 =pod
 
-=for :stopwords Randy Stauner ACKNOWLEDGEMENTS repo's todo cpan testmatrix url annocpan
-anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders
-
 =encoding utf-8
+
+=for :stopwords Randy Stauner ACKNOWLEDGEMENTS repo repo's todo cpan testmatrix url
+annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata
+placeholders metacpan
 
 =head1 NAME
 
@@ -265,7 +268,7 @@ Git::DescribeVersion - Use git-describe to show a repo's version
 
 =head1 VERSION
 
-version 1.014
+version 1.015
 
 =head1 SYNOPSIS
 
@@ -283,6 +286,17 @@ though it's probably more useful run from the shell:
 
 The included C<git-describe-version> script
 wraps L<Git::DescribeVersion::App>.
+
+B<NOTE>: This module requires git version C<1.5.5> or greater.
+
+The version is determined by counting the commits since the most recent tag
+(matching the L</match_pattern>)
+and using that count as the final part of the version.
+
+So to create a typical three part version (C<v1.2.3>)
+repo tags should be made of the first two parts (C<v1.2>)
+and the number of commits counted by C<git-describe>
+will become the third part (C<v1.2.35>).
 
 =head1 METHODS
 
@@ -446,6 +460,10 @@ command line statement (so that I could put I<that> in my Makefiles).
 =head1 TODO
 
 =over 4
+
+=item *
+
+Allow using git-log to count commits affecting a subdirectory
 
 =item *
 

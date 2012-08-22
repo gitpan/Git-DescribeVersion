@@ -12,7 +12,7 @@ use warnings;
 
 package Git::DescribeVersion::App;
 {
-  $Git::DescribeVersion::App::VERSION = '1.014';
+  $Git::DescribeVersion::App::VERSION = '1.015';
 }
 BEGIN {
   $Git::DescribeVersion::App::AUTHORITY = 'cpan:RWSTAUNER';
@@ -87,9 +87,9 @@ sub usage {
 __END__
 =pod
 
-=for :stopwords Randy Stauner ACKNOWLEDGEMENTS
-
 =encoding utf-8
+
+=for :stopwords Randy Stauner ACKNOWLEDGEMENTS repo
 
 =head1 NAME
 
@@ -97,7 +97,7 @@ Git::DescribeVersion::App - Run Git::DescribeVersion as one-line script
 
 =head1 VERSION
 
-version 1.014
+version 1.015
 
 =head1 SYNOPSIS
 

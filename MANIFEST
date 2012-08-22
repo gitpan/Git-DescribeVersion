@@ -10,10 +10,12 @@ bin/git-describe-version
 dist.ini
 examples/Makefile
 examples/gitconfig
+inc/GitVersion.pm
 lib/Git/DescribeVersion.pm
 lib/Git/DescribeVersion/App.pm
 t/00-compile.t
-t/000-report-versions-tiny.t
+t/00-git-version.t
+t/00-report-prereqs.t
 t/app-args.t
 t/app.t
 t/count-objects.t
@@ -25,11 +27,12 @@ t/parse_version.t
 t/wrappers.t
 xt/author/critic.t
 xt/author/pod-spell.t
+xt/author/test-eol.t
 xt/author/wrappers.t
+xt/release/changes_has_content.t
 xt/release/cpan-changes.t
 xt/release/dist-manifest.t
 xt/release/distmeta.t
-xt/release/eol.t
 xt/release/kwalitee.t
 xt/release/meta-json.t
 xt/release/minimum-version.t

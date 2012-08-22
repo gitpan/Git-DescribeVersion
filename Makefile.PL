@@ -4,6 +4,7 @@ use warnings;
 
 use 5.006;
 
+use inc::GitVersion;
 use ExtUtils::MakeMaker 6.30;
 
 
@@ -14,8 +15,11 @@ my %WriteMakefileArgs = (
   "BUILD_REQUIRES" => {
     "Cwd" => 0,
     "Exporter" => 0,
+    "ExtUtils::MakeMaker" => 0,
     "File::Find" => 0,
+    "File::Spec::Functions" => 0,
     "File::Temp" => 0,
+    "List::Util" => 0,
     "Test::MockObject" => "1.09",
     "Test::MockObject::Extends" => "1.09",
     "Test::More" => "0.96"
@@ -36,7 +40,7 @@ my %WriteMakefileArgs = (
     "version" => "0.82",
     "warnings" => 0
   },
-  "VERSION" => "1.014",
+  "VERSION" => "1.015",
   "test" => {
     "TESTS" => "t/*.t"
   }
